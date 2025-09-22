@@ -223,8 +223,9 @@
   <div class="sert-search-panel" style="margin-bottom:13px;">
   <input id="textSearch" type="text" placeholder="Поиск по всем данным..." style="font-size:15px;padding:6px 13px;border-radius:8px;border:1.5px solid #bfc4d9;width:350px;max-width:100%;"></div>
   <div class="sert-mfr-filter" id="manufacturerFilter"></div>
-  <div class="sert-cat-filter" id="categoryFilter"></div>
+  
   <div class="sert-filter-panel">
+  <div class="sert-mfr-filter" id="categoryFilter"></div>
     <label for="dateFrom">От: <input id="dateFrom" type="date"></label>
     <label for="dateTo">До: <input id="dateTo" type="date"></label>
     <button id="resetFilter">Сбросить</button>
@@ -568,6 +569,7 @@ if (docDatesRaw) {
   document.getElementById('dateTo').onchange = function(){markActiveFilters(); filterAndRedraw();};
   document.getElementById('resetFilter').onclick = function(){currentManufacturer = ''; stateFilter='all'; myProductActive = false;
     if(document.getElementById('mfSelect')) document.getElementById('mfSelect').value = '';
+	if(document.getElementById('catSelect')) document.getElementById('catSelect').value = '';
     document.getElementById('dateFrom').value = '';
     document.getElementById('dateTo').value = '';
     Array.from(document.querySelectorAll('.sert-state-btn')).forEach(function(btn){btn.classList.remove('sert-state-active');});
