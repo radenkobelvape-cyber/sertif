@@ -578,13 +578,23 @@ if (docDatesRaw) {
     markActiveFilters();
     updateCounts();
     updateStateBtns();};
-  document.getElementById('downloadCsv').onclick = function(){downloadExcel(filteredData);};}function filterAndRedraw(){let mf = document.getElementById('mfSelect');
+  document.getElementById('downloadCsv').onclick = function(){downloadExcel(filteredData);};}function filterAndRedraw(){
+  let mf = document.getElementById('mfSelect');
+  let cat = document.getElementById('catSelect');       // <--- добаляем поиск по категории
+  let searchField = document.getElementById('textSearch'); // <--- поиск
   let dfrom = document.getElementById('dateFrom');
   let dto = document.getElementById('dateTo');
   filteredData = originalData.filter(function(row){if (mf && mf.value && row['certdecltr_manufacturer']!== mf.value) return false;
+  if (cat && cat.value && row['certdecltr_productname'] !== cat.value) return false;
     if (dfrom && dfrom.value){var d = row['certdecltr_docstartdate']? row['certdecltr_docstartdate'].slice(0,10) : '';
       if (d < dfrom.value) return false;}if(dto && dto.value){var d = row['certdecltr_docstartdate']? row['certdecltr_docstartdate'].slice(0,10) : '';
-      if (d > dto.value) return false;}if(myProductActive){var m = (row['certdecltr_manufacturer']||'').toLowerCase();
+      if (d > dto.value) return false;}
+	  // ФИЛЬТР по поиску
+    if (searchField && searchField.value) {
+      let val = searchField.value.toLowerCase();
+      let allText = Object.values(row).join(' ').toLowerCase();
+      if (allText.indexOf(val) === -1) return false;}
+	  if(myProductActive){var m = (row['certdecltr_manufacturer']||'').toLowerCase();
       if ( !(m.indexOf("белвэйп") !== -1 || m.indexOf("belvape") !== -1) ) return false;}var state = getCertState(row);
     if(stateFilter=="expired" && state!="expired") return false;
     if(stateFilter=="almost" && state!="almost") return false;
