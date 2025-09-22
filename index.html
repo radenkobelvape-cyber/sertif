@@ -388,7 +388,28 @@ container.appendChild(docCertBtn);
     let category = cert['certdecltr_productname']|| '-';
     let batchRaw = cert['cert_full_batchsizetext']|| '-';
     let batch = extractBatchNumber(batchRaw);
-
+// БЛОК ПРО ДАТУ! ВСТАВИТЬ ТОЛЬКО ОДИН РАЗ (а не после html +=...)
+let docDatesRaw = cert['doc_date_sootvetstv'] || '';
+let docDateStr = '';
+let docDateSoon = false;
+if (docDatesRaw) {
+  let datesArr = docDatesRaw.split('\n').map(ds => ds.trim()).filter(ds => ds);
+  if (datesArr.length > 0) {
+    let lastDate = datesArr[datesArr.length - 1];
+    let parts = lastDate.split('.');
+    if (parts.length === 3) {
+      let dt = new Date(parts[2], parts[1] - 1, parts[0]);
+      dt.setFullYear(dt.getFullYear() + 1);
+      dt.setDate(dt.getDate() - 1);
+      let dd = String(dt.getDate()).padStart(2, '0');
+      let mm = String(dt.getMonth() + 1).padStart(2, '0');
+      let yyyy = String(dt.getFullYear());
+      docDateStr = `${dd}.${mm}.${yyyy}`;
+      let daysLeft = (dt - new Date()) / (1000 * 3600 * 24);
+      if (daysLeft > 0 && daysLeft < 92) docDateSoon = true;
+    }
+  }
+}
     let state = getCertState(cert);
     let stateClass = '';
     let badgeNew = '';
@@ -455,32 +476,6 @@ container.appendChild(docCertBtn);
       </tr>
     `;
 	  };
-	  // Дата истечения документа сертификации (берём последнее значение + 1 год - 1 день)
-  let docDatesRaw = cert['doc_date_sootvetstv'] || '';
-  let docDateStr = '';
-  let docDateSoon = false;
-  if (docDatesRaw) {
-    // Получить все даты, оставить последнюю, посчитать +1год -1день
-    let datesArr = docDatesRaw.split('\n').map(ds => ds.trim()).filter(ds => ds);
-    if (datesArr.length > 0) {
-      let lastDate = datesArr[datesArr.length - 1]; // формат "DD.MM.YYYY"
-      let parts = lastDate.split('.');
-      if (parts.length === 3) {
-        let dt = new Date(parts[2], parts[1] - 1, parts[0]);
-        // +1 год -1 день
-        dt.setFullYear(dt.getFullYear() + 1);
-        dt.setDate(dt.getDate() - 1);
-        // Отформатировать обратно
-        let dd = String(dt.getDate()).padStart(2, '0');
-        let mm = String(dt.getMonth() + 1).padStart(2, '0');
-        let yyyy = String(dt.getFullYear());
-        docDateStr = `${dd}.${mm}.${yyyy}`;
-
-        // Если до истечения менее 3 месяцев — подсветка
-        let daysLeft = (dt - new Date()) / (1000 * 3600 * 24);
-        if (daysLeft > 0 && daysLeft < 92) docDateSoon = true;
-      }
-    };
   html += `</table>`;
   document.getElementById("table-section").innerHTML = html;
   addAccordionListeners();
@@ -558,7 +553,8 @@ container.appendChild(docCertBtn);
     if(stateFilter=="expired" && state!="expired") return false;
     if(stateFilter=="almost" && state!="almost") return false;
     if(stateFilter=="new" && state!="new") return false;
-	  if(stateFilter=="docsootvetstv_soon") {
+	  if(stateFilter=="docsootvetstv_soon") 
+    };
     // Код для doc-sootvetstv фильтра
     let docDatesRaw = row['doc_date_sootvetstv'] || '';
     let soon = false;
