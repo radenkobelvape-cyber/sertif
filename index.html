@@ -367,7 +367,7 @@ container.appendChild(docCertBtn);
     uniq[v] = 1;
   }
   var arr = Object.keys(uniq).sort(function(a, b) { return a.localeCompare(b, 'ru'); });
-  var html = '<label for="catSelect">Категория:</label> <select id="catSelect"><option value="">все</option>';
+  var html = '<label for="catSelect">Категория:</label> <select id="catSelect" style="width:220px;"><option value="">все</option>';
   for (var i = 0; i < arr.length; i++) {
     if (arr[i].trim()) {
       html += '<option value="' + arr[i].replace(/"/g, '"') + '">' + arr[i] + '</option>';
