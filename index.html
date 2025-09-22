@@ -322,7 +322,12 @@ function getFiltersCurrentCounts(){let mf = document.getElementById('mfSelect');
       document.getElementById('sertStateBtn_all').classList.add('sert-state-active');}updateStateBtns();
     filterAndRedraw();};
   container.appendChild(myBtn);
-  // Кнопка: Док. сертификации (даты скоро истекут)
+  
+  // Посчитать количество "Док. сертификации (скоро истекут)"
+let docCertSoonCount = 0;
+for (let i = 0; i < originalData.length; i++) {
+  let cert = originalData[i];
+  let docDatesRaw = cert['doc_date_sootvetstv'] || '';
   if (docDatesRaw) {
     let datesArr = docDatesRaw.split('\n').map(ds => ds.trim()).filter(ds => ds);
     if (datesArr.length > 0) {
@@ -338,10 +343,10 @@ function getFiltersCurrentCounts(){let mf = document.getElementById('mfSelect');
     }
   }
 }
-
+  // Кнопка как у всех!
 var docCertBtn = document.createElement('button');
 docCertBtn.type = 'button';
-docCertBtn.className = 'sert-state-btn'; // чтобы стиль был как у остальных кнопок
+docCertBtn.className = 'sert-state-btn';
 docCertBtn.id = 'docCertBtn';
 docCertBtn.innerHTML = 'Док. сертификации' +
     '<span class="sert-fcount">' + docCertSoonCount + '</span>';
