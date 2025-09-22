@@ -220,7 +220,10 @@
   </div>
   <div class="sert-state-buttons" id="sertStateBtns"></div>
   <div class="sert-filter-head">Фильтры</div>
+  <div class="sert-search-panel" style="margin-bottom:13px;">
+  <input id="textSearch" type="text" placeholder="Поиск по всем данным..." style="font-size:15px;padding:6px 13px;border-radius:8px;border:1.5px solid #bfc4d9;width:350px;max-width:100%;"></div>
   <div class="sert-mfr-filter" id="manufacturerFilter"></div>
+  <div class="sert-cat-filter" id="categoryFilter"></div>
   <div class="sert-filter-panel">
     <label for="dateFrom">От: <input id="dateFrom" type="date"></label>
     <label for="dateTo">До: <input id="dateTo" type="date"></label>
@@ -271,6 +274,7 @@ fetch(DATA_URL)
       return bv.localeCompare(av, undefined,{numeric:true});});
     filteredData = originalData.slice();
     renderManufacturerFilter(originalData);
+	renderCategoryFilter(originalData);
     updateStateBtns();
     renderTable(filteredData);
     setupDatePeriod();})
@@ -354,7 +358,30 @@ container.appendChild(docCertBtn);
   document.getElementById('mfSelect').onchange = function(){currentManufacturer = this.value;
     filterByManufacturer();
     markActiveFilters();
-    updateStateBtns();};}function filterByManufacturer(){filterAndRedraw();}function renderTable(data){let html = `
+    updateStateBtns();}
+	function renderCategoryFilter(data) {
+  var uniq = {};
+  for (var i = 0; i < data.length; i++) {
+    var v = data[i]['certdecltr_productname'] || '';
+    uniq[v] = 1;
+  }
+  var arr = Object.keys(uniq).sort(function(a, b) { return a.localeCompare(b, 'ru'); });
+  var html = '<label for="catSelect">Категория:</label> <select id="catSelect"><option value="">все</option>';
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].trim()) {
+      html += '<option value="' + arr[i].replace(/"/g, '"') + '">' + arr[i] + '</option>';
+    }
+  }
+  html += '</select>';
+  document.getElementById('categoryFilter').innerHTML = html;
+  document.getElementById('catSelect').onchange = function() {
+    filterAndRedraw();
+    markActiveFilters();
+    updateStateBtns();
+  };
+}
+	document.getElementById('textSearch').oninput = function() {
+  filterAndRedraw();}function filterByManufacturer(){filterAndRedraw();}function renderTable(data){let html = `
     <table class="sert-table">
       <tr>
         <th></th>
