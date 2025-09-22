@@ -380,8 +380,17 @@ container.appendChild(docCertBtn);
     updateStateBtns();
   };
 }
+
 	document.getElementById('textSearch').oninput = function() {
-  filterAndRedraw();}function filterByManufacturer(){filterAndRedraw();}function renderTable(data){let html = `
+  filterAndRedraw();
+  };
+  
+  function filterByManufacturer(){
+  filterAndRedraw();
+  }
+  
+  function renderTable(data){
+  let html = `
     <table class="sert-table">
       <tr>
         <th></th>
