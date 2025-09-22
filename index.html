@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+  <meta charset="UTF-8">
+  <title>Сертификаты БелВэйп</title>
 <style>
 .sert-wrap{max-width: 1400px;
   margin: 0 auto;
@@ -449,9 +451,10 @@ container.appendChild(docCertBtn);
         <td>${batch}</td>
       </tr>
       <tr class="detail-row" id="detail-${idx}">
-        <td colspan="8">${detailsHtml}</td>
+        <td colspan="9">${detailsHtml}</td>
       </tr>
     `;
+	  };
 	  // Дата истечения документа сертификации (берём последнее значение + 1 год - 1 день)
   let docDatesRaw = cert['doc_date_sootvetstv'] || '';
   let docDateStr = '';
@@ -477,7 +480,7 @@ container.appendChild(docCertBtn);
         let daysLeft = (dt - new Date()) / (1000 * 3600 * 24);
         if (daysLeft > 0 && daysLeft < 92) docDateSoon = true;
       }
-    };};
+    };
   html += `</table>`;
   document.getElementById("table-section").innerHTML = html;
   addAccordionListeners();
@@ -618,6 +621,4 @@ function downloadExcel(data){var now = new Date();
   XLSX.utils.book_append_sheet(wb, ws, "Сертификаты");
   XLSX.writeFile(wb, 'report_certif_belvape_'+(now.toISOString().slice(0,10))+'.xlsx');}}</script>
   </body>
-</html>
-  <meta charset="UTF-8">
-  <title>Сертификаты БелВэйп</title>
+  </html>
