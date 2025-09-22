@@ -177,7 +177,13 @@
   vertical-align: middle;}.sert-flag{font-size: 20px;
   line-height: 1;
   vertical-align: middle;
-  margin-right: 6px;}@media (max-width:900px){.sert-title,.sert-mfr-filter,.sert-filter-panel{flex-direction:column;align-items:flex-start;}.sert-update-panel{flex-direction:column;gap:9px;}.sert-updbtn{font-size:1em;min-width:140px;padding:10px 20px;}.sert-upd-controls{gap:16px;}}@media (max-width:600px){.sert-wrap{padding:8px;}.sert-title{font-size:1.07em;}.sert-status-row{font-size:15px;}.sert-table th, .sert-table td{font-size:11.5px;padding:5px 5px;}.sert-mfr-filter{font-size:12px;}.sert-state-btn, .sert-my-product-btn{padding:5px 8px;font-size:12px;min-width:50px;}.sert-fcount{min-width:16px;height:16px;font-size:12px;line-height:16px;}}</style>
+  margin-right: 6px;}@media (max-width:900px){.sert-title,.sert-mfr-filter,.sert-filter-panel{flex-direction:column;align-items:flex-start;}.sert-update-panel{flex-direction:column;gap:9px;}.sert-updbtn{font-size:1em;min-width:140px;padding:10px 20px;}.sert-upd-controls{gap:16px;}}@media (max-width:600px){.sert-wrap{padding:8px;}.sert-title{font-size:1.07em;}.sert-status-row{font-size:15px;}.sert-table th, .sert-table td{font-size:11.5px;padding:5px 5px;}.sert-mfr-filter{font-size:12px;}.sert-state-btn, .sert-my-product-btn{padding:5px 8px;font-size:12px;min-width:50px;}.sert-fcount{min-width:16px;height:16px;font-size:12px;line-height:16px;}}
+  .doc-sootvetstv-soon {
+  background: #ffe5e5 !important;
+  color: #b12727 !important;
+  font-weight: 700;
+}
+</style>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   </head>
 <body>
@@ -309,6 +315,25 @@ function getFiltersCurrentCounts(){let mf = document.getElementById('mfSelect');
       document.getElementById('sertStateBtn_all').classList.add('sert-state-active');}updateStateBtns();
     filterAndRedraw();};
   container.appendChild(myBtn);
+  // Кнопка: Док. сертификации (даты скоро истекут)
+var docCertBtn = document.createElement('button');
+docCertBtn.type = 'button';
+docCertBtn.innerHTML = 'Док. сертификации';
+docCertBtn.id = 'docCertBtn';
+docCertBtn.style.background = '#ffd6d6';
+docCertBtn.style.color = '#ad2c2c';
+docCertBtn.style.fontWeight = 'bold';
+docCertBtn.style.border = '1.5px solid #e17b7b';
+docCertBtn.style.marginLeft = '12px';
+docCertBtn.onclick = function() {
+  // при клике — фильтруем только те, где docDateSoon=true
+  stateFilter = 'docsootvetstv_soon';
+  myProductActive = false;
+  updateStateBtns();
+  filterAndRedraw();
+};
+container.appendChild(docCertBtn);
+
   updateStateBtns();}function updateStateBtns(){let counts = getFiltersCurrentCounts();
   let map ={all:"sertStateBtn_all", new:"sertStateBtn_new", almost:"sertStateBtn_almost", expired:"sertStateBtn_expired"};
   for(let key in map){let b = document.getElementById(map[key]);
@@ -334,6 +359,7 @@ function getFiltersCurrentCounts(){let mf = document.getElementById('mfSelect');
         <th data-field="cert_full_docid">Номер сертификата<span class="sort-icon"></span></th>
         <th data-field="certdecltr_docstartdate">Дата выдачи<span class="sort-icon"></span></th>
         <th data-field="certdecltr_docvaliditydate">Действует до<span class="sort-icon"></span></th>
+		<th>Дата истечения док. сертификации</th>
         <th data-field="certdecltr_applicant">Импортер<span class="sort-icon"></span></th>
         <th data-field="certdecltr_manufacturer">Производитель<span class="sort-icon"></span></th>
         <th data-field="certdecltr_productname">Категория<span class="sort-icon"></span></th>
@@ -341,7 +367,8 @@ function getFiltersCurrentCounts(){let mf = document.getElementById('mfSelect');
       </tr>
   `;
   var now = new Date();
-  data.forEach((cert, idx) =>{let num = cert['cert_full_docid']|| '-';
+  data.forEach((cert, idx) =>{
+	let num = cert['cert_full_docid']|| '-';
     let certId = cert['certdecltr_id']|| '';
     let link = certId && certId !== '-'
       ? `<a href="https://tsouz.belgiss.by/#!/nsps/certifs/${encodeURIComponent(certId)}/view" target="_blank" class="certhyper" onclick="event.stopPropagation();">${num}</a>`
@@ -400,7 +427,8 @@ function getFiltersCurrentCounts(){let mf = document.getElementById('mfSelect');
           <tr><td>Категория (расш.):</td><td>${categoryExpanded}</td></tr>
         </table>
         </div>
-        `;});}else{skuHtml += '<i>Нет данных по SKU</i>';}let detailsHtml = `
+        `;});}else{skuHtml += '<i>Нет данных по SKU</i>';}
+		let detailsHtml = `
     <div class="accordion-content">
       <b>ID сертификата:</b> ${cert['certdecltr_id']?? '-'}<br>
       <b>Страна импортера:</b> ${cert['cert_full_countrycode']?? '-'}<br>
@@ -414,6 +442,7 @@ function getFiltersCurrentCounts(){let mf = document.getElementById('mfSelect');
         <td>${link}${badgeNew}</td>
         <td class="sert-date-cell">${start}</td>
         <td>${end}</td>
+		<td class="doc-sootvetstv-cell${docDateSoon ? ' doc-sootvetstv-soon' : ''}">${docDateStr || '-'}</td>
         <td>${importer}</td>
         <td>${flag}${manufacturer}</td>
         <td>${category}</td>
@@ -422,7 +451,33 @@ function getFiltersCurrentCounts(){let mf = document.getElementById('mfSelect');
       <tr class="detail-row" id="detail-${idx}">
         <td colspan="8">${detailsHtml}</td>
       </tr>
-    `;});
+    `;
+	  // Дата истечения документа сертификации (берём последнее значение + 1 год - 1 день)
+  let docDatesRaw = cert['doc_date_sootvetstv'] || '';
+  let docDateStr = '';
+  let docDateSoon = false;
+  if (docDatesRaw) {
+    // Получить все даты, оставить последнюю, посчитать +1год -1день
+    let datesArr = docDatesRaw.split('\n').map(ds => ds.trim()).filter(ds => ds);
+    if (datesArr.length > 0) {
+      let lastDate = datesArr[datesArr.length - 1]; // формат "DD.MM.YYYY"
+      let parts = lastDate.split('.');
+      if (parts.length === 3) {
+        let dt = new Date(parts[2], parts[1] - 1, parts[0]);
+        // +1 год -1 день
+        dt.setFullYear(dt.getFullYear() + 1);
+        dt.setDate(dt.getDate() - 1);
+        // Отформатировать обратно
+        let dd = String(dt.getDate()).padStart(2, '0');
+        let mm = String(dt.getMonth() + 1).padStart(2, '0');
+        let yyyy = String(dt.getFullYear());
+        docDateStr = `${dd}.${mm}.${yyyy}`;
+
+        // Если до истечения менее 3 месяцев — подсветка
+        let daysLeft = (dt - new Date()) / (1000 * 3600 * 24);
+        if (daysLeft > 0 && daysLeft < 92) docDateSoon = true;
+      }
+    };};
   html += `</table>`;
   document.getElementById("table-section").innerHTML = html;
   addAccordionListeners();
@@ -500,6 +555,28 @@ function getFiltersCurrentCounts(){let mf = document.getElementById('mfSelect');
     if(stateFilter=="expired" && state!="expired") return false;
     if(stateFilter=="almost" && state!="almost") return false;
     if(stateFilter=="new" && state!="new") return false;
+	  if(stateFilter=="docsootvetstv_soon") {
+    // Код для doc-sootvetstv фильтра
+    let docDatesRaw = row['doc_date_sootvetstv'] || '';
+    let soon = false;
+    if (docDatesRaw) {
+      let datesArr = docDatesRaw.split('\n').map(ds => ds.trim()).filter(ds => ds);
+      if (datesArr.length > 0) {
+        let lastDate = datesArr[datesArr.length - 1];
+        let parts = lastDate.split('.');
+        if (parts.length === 3) {
+          let dt = new Date(parts[2], parts[1] - 1, parts[0]);
+          dt.setFullYear(dt.getFullYear() + 1);
+          dt.setDate(dt.getDate() - 1);
+          // вычисляем daysLeft
+          let daysLeft = (dt - new Date()) / (1000 * 3600 * 24);
+          if (daysLeft > 0 && daysLeft < 92) soon = true;
+        }
+      }
+    }
+    if (!soon) return false;
+  }
+
     return true;});
   renderTable(filteredData);
   updateCounts();
