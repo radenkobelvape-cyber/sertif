@@ -323,17 +323,29 @@ function getFiltersCurrentCounts(){let mf = document.getElementById('mfSelect');
     filterAndRedraw();};
   container.appendChild(myBtn);
   // Кнопка: Док. сертификации (даты скоро истекут)
+  if (docDatesRaw) {
+    let datesArr = docDatesRaw.split('\n').map(ds => ds.trim()).filter(ds => ds);
+    if (datesArr.length > 0) {
+      let lastDate = datesArr[datesArr.length - 1];
+      let parts = lastDate.split('.');
+      if (parts.length === 3) {
+        let dt = new Date(parts[2], parts[1] - 1, parts[0]);
+        dt.setFullYear(dt.getFullYear() + 1);
+        dt.setDate(dt.getDate() - 1);
+        let daysLeft = (dt - new Date()) / (1000 * 3600 * 24);
+        if (daysLeft > 0 && daysLeft < 92) docCertSoonCount++;
+      }
+    }
+  }
+}
+
 var docCertBtn = document.createElement('button');
 docCertBtn.type = 'button';
-docCertBtn.innerHTML = 'Док. сертификации';
+docCertBtn.className = 'sert-state-btn'; // чтобы стиль был как у остальных кнопок
 docCertBtn.id = 'docCertBtn';
-docCertBtn.style.background = '#ffd6d6';
-docCertBtn.style.color = '#ad2c2c';
-docCertBtn.style.fontWeight = 'bold';
-docCertBtn.style.border = '1.5px solid #e17b7b';
-docCertBtn.style.marginLeft = '12px';
+docCertBtn.innerHTML = 'Док. сертификации' +
+    '<span class="sert-fcount">' + docCertSoonCount + '</span>';
 docCertBtn.onclick = function() {
-  // при клике — фильтруем только те, где docDateSoon=true
   stateFilter = 'docsootvetstv_soon';
   myProductActive = false;
   updateStateBtns();
@@ -351,7 +363,45 @@ container.appendChild(docCertBtn);
   if(my){my.querySelector('.sert-fcount').innerText = counts.my;
     if(myProductActive) my.classList.add('active');
     else my.classList.remove('active');
-    my.disabled = (counts.my===0);}}function renderManufacturerFilter(data){var uniq ={};
+    my.disabled = (counts.my===0);}
+	// Обновление кнопки "Док. сертификации" (показываем счетчик и активируем при выборе)
+let docCertBtn = document.getElementById('docCertBtn');
+if (docCertBtn) {
+  // Считаем сколько сейчас подходящих строк для этого фильтра
+  let count = 0;
+  for (let i = 0; i < filteredData.length; i++) {
+    let cert = filteredData[i];
+    let docDatesRaw = cert['doc_date_sootvetstv'] || '';
+    if (docDatesRaw) {
+      let datesArr = docDatesRaw.split('\n').map(ds => ds.trim()).filter(ds => ds);
+      if (datesArr.length > 0) {
+        let lastDate = datesArr[datesArr.length - 1];
+        let parts = lastDate.split('.');
+        if (parts.length === 3) {
+          let dt = new Date(parts[2], parts[1] - 1, parts[0]);
+          dt.setFullYear(dt.getFullYear() + 1);
+          dt.setDate(dt.getDate() - 1);
+          let daysLeft = (dt - new Date()) / (1000 * 3600 * 24);
+          if (daysLeft > 0 && daysLeft < 92) count++;
+        }
+      }
+    }
+  }
+  // Обновить цифру на кнопке (если скрылась/появилась)
+  let span = docCertBtn.querySelector('.sert-fcount');
+  if (span) span.innerText = count;
+  
+  // Подсвечиваем, если сейчас выбран этот фильтр (class sert-state-active)
+  if (stateFilter == 'docsootvetstv_soon') {
+    docCertBtn.classList.add('sert-state-active');
+  } else {
+    docCertBtn.classList.remove('sert-state-active');
+  }
+  // Если count=0 — делаем неактивной
+  docCertBtn.disabled = (count === 0);
+}
+
+	}function renderManufacturerFilter(data){var uniq ={};
   for(var i=0;i<data.length;i++){var v = data[i]['certdecltr_manufacturer']|| '';uniq[v]= 1;}var arr = Object.keys(uniq).sort(function(a,b){return a.localeCompare(b,'ru');});
   var html = '<label for="mfSelect">Производитель:</label> <select id="mfSelect"><option value="">все</option>';
   for(var i=0;i<arr.length;i++){if(arr[i].trim()){html += '<option value="'+arr[i].replace(/"/g,'"')+'">'+arr[i]+'</option>';}}html += '</select>';
