@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<style>
+.sert-wrap{max-width: 1400px;
+  margin: 0 auto;
+  font-family: 'San Francisco','Segoe UI', Arial, sans-serif;
+  background: #f9fafc;
+  border-radius: 22px;
+  box-shadow: 0 2px 12px 0 rgba(32,37,49,.07),0 1.5px 4.5px 0 rgba(32,37,49,0.05);
+  padding: 28px 24px 32px 24px;}.sert-status-row{font-size: 18px;
+  font-weight: 700;
+  color: #1976d2;
+  margin-bottom: 14px;
+  letter-spacing: 0.01em;}.sert-title{font-family: inherit;
+  font-size: 1.22em;
+  font-weight: 700;
+  margin: 8px 0 8px 0;
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+  color: #1a1a1a;
+  letter-spacing: 0.02em;}.sert-upd-controls{width:100%;
+  display: flex;
+  gap: 42px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 20px 0 18px 0;}.sert-updbtn-block{display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;}.sert-updbtn{min-width: 242px;
+  font-size: 1.22em;
+  font-weight: 600;
+  padding: 14px 35px 14px 35px;
+  border-radius: 13px;
+  border: 1.7px solid #bccefa;
+  background: linear-gradient(180deg,#e7f0ff 0%,#e8edfb 100%);
+  color: #226bd3;
+  box-shadow: 0 3px 14px rgba(37,64,165,0.08);
+  cursor: pointer;
+  transition:.18s;
+  margin-bottom: 0;
+  outline:none;}.sert-updbtn:active, .sert-updbtn:focus{box-shadow:0 0 0 3px #cbe1ff;}.sert-updbtn.sert-updbtn-green{background: linear-gradient(180deg, #3ed77d 0%, #36e16c 100%);
+  color: #fff;
+  border:1.7px solid #06a964;
+  text-shadow:0 2px 8px #107f4d1a;}.sert-updbtn.sert-updbtn-green:hover, .sert-updbtn.sert-updbtn-green:focus{background: linear-gradient(180deg, #19c871 0%, #46f483 100%);
+  color: #fff;
+  box-shadow:0 3px 18px #3ed77d48;}.sert-updbtn:hover{background: linear-gradient(180deg,#eaf3ff 0%,#dbe7fa 100%);
+  color: #135482;
+  border-color: #63a3ff;}.sert-updbtn-desc{font-size: 1em;
+  color: #5e7ac9;
+  margin: 0 0 0 2px;
+  line-height: 1.42;}.sert-updbtn.greendesc{color: #299a5b;}.sert-state-buttons{display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-bottom:11px;
+  margin-left:3px;}.sert-state-btn, .sert-my-product-btn{position:relative;
+  background: #f2f5ff;
+  border: 1.3px solid #d3e0fa;
+  border-radius: 7px;
+  color: #3375e3;
+  font-weight:500;
+  font-size: 15px;
+  cursor:pointer;
+  padding:7px 21px 7px 21px;
+  transition: all 0.15s;
+  outline:none;
+  min-width: 95px;
+  margin-bottom: 3px;
+  margin-top:3px;}.sert-state-btn:hover, .sert-state-btn.sert-state-active{background: #e2eafe;
+  color: #1e5bcc;
+  border:1.5px solid #1e5bcc;}.sert-my-product-btn{margin-left:12px;
+  background: #e7f0ff;
+  border: 1.5px solid #90bffe;
+  color: #176bed;
+  font-weight: 600;}.sert-my-product-btn.sert-state-active, .sert-my-product-btn.active{background: #d5e9fe;
+  color: #1151a3;
+  border: 1.7px solid #176bed;}.sert-fcount{display: inline-block;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 50%;
+  background: #e4ebf3;
+  color: #176bed;
+  vertical-align: middle;
+  line-height: 22px;
+  transition:background 0.14s, color 0.14s;}.sert-state-btn.sert-state-active .sert-fcount,
+.sert-my-product-btn.active .sert-fcount{background:#167efc;
+  color:#fff;}.sert-filter-head{background:linear-gradient(180deg,#e5eaf6 0,#f9fafc 100%);
+  border-radius: 13px;
+  box-shadow:0 1.5px 9px 0 rgba(32,37,49,.03);
+  padding: 6px 22px 6px 15px;
+  font-weight:600;
+  color:#1976d2;
+  font-size: 15.5px;
+  margin-bottom:0;
+  display:inline-block;
+  letter-spacing:0.03em;}.sert-mfr-filter, .sert-filter-panel{font-size: 15px;
+  margin-bottom: 9px;}.sert-mfr-filter label, .sert-filter-panel label{font-weight: 500;}.sert-filter-panel{padding: 7px 0 12px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap:18px;
+  align-items: center;}.sert-mfr-filter select, .sert-filter-panel input[type='date']{padding: 3px 16px 3px 8px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1.5px solid #d0d4db;
+  color: #222;
+  background: #f5f6fa;
+  outline:none;
+  transition:border 0.17s, box-shadow 0.17s;}.sert-mfr-filter select:focus, .sert-filter-panel input[type='date']:focus{border:2px solid #1976d2;
+  box-shadow:0 0 6px #b8ccfc;}.sert-active-filter{border:2px solid #2e6bfd !important;
+  background: #e6eeff !important;
+  color:#185bd0!important;}.sert-dl-csv{background: #f5f6fa;
+  border: 1px solid #d0d4db;
+  border-radius: 10px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: #2e6bfd;
+  font-weight: 500;
+  transition:background 0.13s, color 0.13s;
+  cursor:pointer;
+  box-shadow: 0 1px 8px 0 rgba(32,37,49,.08);
+  min-width: 105px;
+  height:29px;}.sert-dl-csv:hover{background: #e2e9fa;
+  color:#194bc1;
+  border: 1.3px solid #9bb7ea;}.sert-table{border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin-top: 13px;
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 2px 12px 0 rgba(32,37,49,.08);
+  overflow: hidden;}.sert-table th, .sert-table td{border: none;
+  padding: 7px 14px;
+  vertical-align: top;}.sert-table th{background: linear-gradient(180deg,#f5f6fa 0%,#e7eaf1 100%);
+  color: #234;
+  font-size: 15px;
+  font-weight: 700;
+  border-bottom: 1px solid #dbe0e8;
+  height:38px;
+  text-align: left;
+  position:relative;}.sert-table th.sert-sorted{background: #e3f1ff !important;
+  color: #1272d7 !important;}.sert-table td.sert-date-cell{white-space: nowrap;}.sert-table tr.expandable{cursor: pointer;
+  transition: background 0.2s;}.sert-table tr.expandable:hover{background: #e8f0fc;}.sert-table tr.expandable:not(:last-of-type){border-bottom: 1.7px solid #f4f4fb !important;
+  box-shadow: 0 10px 10px -10px #d3dde6 inset;}.sert-table tr.detail-row{background: #f9fcff;
+  display: none;}.sert-table .accordion-content{background:#f6f8fb;
+  border-radius: 16px;
+  box-shadow: 0 1.5px 9px 0 rgba(32,37,49,.03);
+  padding: 14px 16px;
+  margin: 2px 0 4px 0;
+  font-size: 14px;}.sert-table .arrow{width:17px;}.sert-table .arrow::before{content: "▶";
+  color:#b3b6c1;}.sert-table .arrow.open::before{content: "▼";
+  color:#1976d2;}.sert-table .sort-icon{font-size: 11px;
+  margin-left: 5px;
+  color: #9ca4bc;}.sert-table .sku-table{margin:4px 0 0 0;
+  border: none;
+  font-size: 14px;}.sert-table .sku-table td{border: none;
+  padding: 2px 7px;}.sert-table .sku-hdr{font-weight: 700;
+  color: #194bc1;
+  background: #eef3fd;}.sert-table .sku-block{margin-bottom:7px;
+  border-bottom: 1px dotted #dde1f7;}.sert-table .certhyper{text-decoration: underline;
+  color: #116ad6;
+  cursor: pointer;
+  transition:color 0.14s;}.sert-table .certhyper:visited{color: #254965;}.sert-table .certhyper:hover{color:#1b80d6;}.sert-table .sert-expired{background: #ffeff0 !important;}.sert-table .sert-almost{background: #fffcdc !important;}.sert-table .sert-new{background: #effff3 !important;}.sert-table .cert-new-badge{background: #34d17a;
+  color: #fff;
+  font-size:11px;
+  font-weight:700;
+  border-radius:8px;
+  padding: 2px 8px;
+  margin-left: 8px;
+  letter-spacing: 0.06em;
+  vertical-align: middle;}.sert-flag{font-size: 20px;
+  line-height: 1;
+  vertical-align: middle;
+  margin-right: 6px;}@media (max-width:900px){.sert-title,.sert-mfr-filter,.sert-filter-panel{flex-direction:column;align-items:flex-start;}.sert-update-panel{flex-direction:column;gap:9px;}.sert-updbtn{font-size:1em;min-width:140px;padding:10px 20px;}.sert-upd-controls{gap:16px;}}@media (max-width:600px){.sert-wrap{padding:8px;}.sert-title{font-size:1.07em;}.sert-status-row{font-size:15px;}.sert-table th, .sert-table td{font-size:11.5px;padding:5px 5px;}.sert-mfr-filter{font-size:12px;}.sert-state-btn, .sert-my-product-btn{padding:5px 8px;font-size:12px;min-width:50px;}.sert-fcount{min-width:16px;height:16px;font-size:12px;line-height:16px;}}</style>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  </head>
+<body>
+<div class="sert-wrap">
+  <div class="sert-status-row" id="sertStatusRow">
+    Сертификатов: 0 &nbsp; Единиц продукции: 0 &nbsp; Партнеров: 0
+  </div>
+  <div class="sert-title">
+    Сертификаты БелВэйп
+  </div>
+  <div class="sert-upd-controls">
+    <div class="sert-updbtn-block">
+      <button id="updateInfoBtn" type="button" class="sert-updbtn">
+        Обновить данные по наполнению сертификатов
+      </button>
+      <div class="sert-updbtn-desc">
+        Актуализирует информацию по каждому SKU: новые партии, новые вкусы, новый штрих-код.<br>
+        После нажатия обновление занимает 2–5 минут.<br>
+        <span id="updateMsg1"></span>
+      </div>
+    </div>
+    <div class="sert-updbtn-block">
+      <button id="updateCertsBtn" type="button" class="sert-updbtn sert-updbtn-green">
+        Обновить сертификаты
+      </button>
+      <div class="sert-updbtn-desc greendesc">
+        Получает новые/закрытые сертификаты из государственного реестра.<br>
+        После нажатия обновление занимает 2–5 минут.<br>
+        <span id="updateMsg2"></span>
+      </div>
+    </div>
+  </div>
+  <div class="sert-state-buttons" id="sertStateBtns"></div>
+  <div class="sert-filter-head">Фильтры</div>
+  <div class="sert-mfr-filter" id="manufacturerFilter"></div>
+  <div class="sert-filter-panel">
+    <label for="dateFrom">От: <input id="dateFrom" type="date"></label>
+    <label for="dateTo">До: <input id="dateTo" type="date"></label>
+    <button id="resetFilter">Сбросить</button>
+    <button class="sert-dl-csv" id="downloadCsv">Скачать Excel</button>
+  </div>
+  <div id="table-section">Загружаем данные...</div>
+</div>
+
+<script>
+window.onload = function(){const DATA_URL = "https://n8n.belvape.by:7777/webhook/sert-info";
+let originalData =[];
+let filteredData =[];
+let sortField = 'certdecltr_docstartdate';
+let sortDir = -1;
+let currentManufacturer = '';
+let stateFilter = 'all';
+let myProductActive = false;
+
+function getFlagEmoji(countryCode){if(!countryCode) return '';
+  countryCode = countryCode.trim().toUpperCase();
+  if(countryCode.length !== 2) return '';
+  const codePoints =[countryCode.codePointAt(0)-65+0x1F1E6, countryCode.codePointAt(1)-65+0x1F1E6];
+  return String.fromCodePoint(...codePoints);}function getCertState(cert){let now = new Date();
+  let issued = cert['certdecltr_docstartdate']? new Date(cert['certdecltr_docstartdate'].slice(0,10)) : null;
+  let valid = cert['certdecltr_docvaliditydate']? new Date(cert['certdecltr_docvaliditydate'].slice(0,10)) : null;
+  if (valid && valid < now) return 'expired';
+  if (issued && ((now - issued)/(1000*3600*24)) < 7) return 'new';
+  if (valid){let daysLeft = (valid - now)/(1000*3600*24);
+    if (daysLeft > 0 && daysLeft < 92) return 'almost';}return 'normal';}var msgTimeouts ={};
+function showUpdateMsg(id, txt){var m = document.getElementById(id);
+  if(!m) return;
+  m.innerHTML = txt;
+  if(msgTimeouts[id]) clearTimeout(msgTimeouts[id]);
+  if(txt){msgTimeouts[id]= setTimeout(function(){m.innerHTML='';}, 18000);}}document.getElementById('updateInfoBtn').onclick = function(){fetch('https://n8n.belvape.by:7777/webhook/tsouz-proxy2')
+  .then(()=>showUpdateMsg('updateMsg1','✓ Запрос на обновление данных отправлен!'))
+  .catch(()=>showUpdateMsg('updateMsg1','Ошибка отправки запроса!'));};
+document.getElementById('updateCertsBtn').onclick = function(){fetch('https://n8n.belvape.by:7777/webhook/tsouz-proxy')
+  .then(()=>showUpdateMsg('updateMsg2','✓ Запрос на обновление сертификатов отправлен!'))
+  .catch(()=>showUpdateMsg('updateMsg2','Ошибка отправки запроса!'));};
+makeStateBtns();
+
+fetch(DATA_URL)
+  .then(r =>{if (!r.ok) throw new Error("Ошибка загрузки данных"); return r.json();})
+  .then(data =>{originalData = data.slice();
+    originalData.sort(function(a, b){let av = a['certdecltr_docstartdate']|| '';
+      let bv = b['certdecltr_docstartdate']|| '';
+      return bv.localeCompare(av, undefined,{numeric:true});});
+    filteredData = originalData.slice();
+    renderManufacturerFilter(originalData);
+    updateStateBtns();
+    renderTable(filteredData);
+    setupDatePeriod();})
+  .catch(e =>{document.getElementById("table-section").innerHTML = '<span style="color:#c00">Ошибка: ' + e + '<br>Возможная причина: Ресурс не отдаёт данные через GET-запрос, либо сервер запрещает прямой доступ (CORS)</span>';});
+
+function getFiltersCurrentCounts(){let mf = document.getElementById('mfSelect');
+  let dfrom = document.getElementById('dateFrom');
+  let dto = document.getElementById('dateTo');
+  let baseArr = originalData.filter(function(row){if (mf && mf.value && row['certdecltr_manufacturer']!== mf.value) return false;
+    if (dfrom && dfrom.value){var d = row['certdecltr_docstartdate']? row['certdecltr_docstartdate'].slice(0,10) : '';
+      if (d < dfrom.value) return false;}if(dto && dto.value){var d = row['certdecltr_docstartdate']? row['certdecltr_docstartdate'].slice(0,10) : '';
+      if (d > dto.value) return false;}return true;});
+  let baseArrMy = baseArr.filter(function(row){var m = (row['certdecltr_manufacturer']||'').toLowerCase();
+    return m.indexOf("белвэйп")!==-1 || m.indexOf("belvape")!==-1;});
+  function calc(arr){let res={all:0, new:0, almost:0, expired:0, my:0};
+    for(let i=0;i<arr.length;i++){let el = arr[i];
+      let st = getCertState(el);
+      res.all++;
+      if(st=='new') res.new++;
+      if(st=='almost') res.almost++;
+      if(st=='expired') res.expired++;
+      var m = (el['certdecltr_manufacturer']||'').toLowerCase();
+      if ( m.indexOf("белвэйп")!==-1 || m.indexOf("belvape")!==-1 ) res.my++;}return res;}return myProductActive ? calc(baseArrMy) : calc(baseArr);}function makeStateBtns(){var container = document.getElementById("sertStateBtns");
+  const caption =[{code:'all', text:'Все'},{code:'new', text:'Новые'},{code:'almost', text:'Скоро истекут'},{code:'expired', text:'Просрочены'}];
+  function setState(code){stateFilter = code;
+    myProductActive = false;
+    updateStateBtns();
+    filterAndRedraw();}container.innerHTML = '';
+  for (var i=0;i<caption.length;i++){var btn = document.createElement('button');
+    btn.type = "button";
+    btn.className = 'sert-state-btn'+(caption[i].code=="all"?' sert-state-active':'');
+    btn.innerHTML = caption[i].text+'<span class="sert-fcount">0</span>';
+    btn.id = 'sertStateBtn_'+caption[i].code;
+    btn.onclick=(function(code){return function(){setState(code);}})(caption[i].code);
+    container.appendChild(btn);}var myBtn = document.createElement('button');
+  myBtn.type = "button";
+  myBtn.innerHTML = 'Свой продукт'+'<span class="sert-fcount">0</span>';
+  myBtn.className = "sert-my-product-btn";
+  myBtn.id = "sertMyProductBtn";
+  myBtn.onclick = function(){myProductActive = !myProductActive;
+    Array.from(container.querySelectorAll('.sert-state-btn')).forEach(btn=>btn.classList.remove('sert-state-active'));
+    if(myProductActive) this.classList.add("active");
+    else{stateFilter='all';
+      document.getElementById('sertStateBtn_all').classList.add('sert-state-active');}updateStateBtns();
+    filterAndRedraw();};
+  container.appendChild(myBtn);
+  updateStateBtns();}function updateStateBtns(){let counts = getFiltersCurrentCounts();
+  let map ={all:"sertStateBtn_all", new:"sertStateBtn_new", almost:"sertStateBtn_almost", expired:"sertStateBtn_expired"};
+  for(let key in map){let b = document.getElementById(map[key]);
+    if(b){b.querySelector('.sert-fcount').innerText = counts[key];
+      if( ( stateFilter==key && !myProductActive ) || ( myProductActive && key=='all' ) ) b.classList.add('sert-state-active');
+      else b.classList.remove('sert-state-active');
+      b.disabled = (counts[key]===0);}}let my = document.getElementById('sertMyProductBtn');
+  if(my){my.querySelector('.sert-fcount').innerText = counts.my;
+    if(myProductActive) my.classList.add('active');
+    else my.classList.remove('active');
+    my.disabled = (counts.my===0);}}function renderManufacturerFilter(data){var uniq ={};
+  for(var i=0;i<data.length;i++){var v = data[i]['certdecltr_manufacturer']|| '';uniq[v]= 1;}var arr = Object.keys(uniq).sort(function(a,b){return a.localeCompare(b,'ru');});
+  var html = '<label for="mfSelect">Производитель:</label> <select id="mfSelect"><option value="">все</option>';
+  for(var i=0;i<arr.length;i++){if(arr[i].trim()){html += '<option value="'+arr[i].replace(/"/g,'"')+'">'+arr[i]+'</option>';}}html += '</select>';
+  document.getElementById('manufacturerFilter').innerHTML = html;
+  document.getElementById('mfSelect').onchange = function(){currentManufacturer = this.value;
+    filterByManufacturer();
+    markActiveFilters();
+    updateStateBtns();};}function filterByManufacturer(){filterAndRedraw();}function renderTable(data){let html = `
+    <table class="sert-table">
+      <tr>
+        <th></th>
+        <th data-field="cert_full_docid">Номер сертификата<span class="sort-icon"></span></th>
+        <th data-field="certdecltr_docstartdate">Дата выдачи<span class="sort-icon"></span></th>
+        <th data-field="certdecltr_docvaliditydate">Действует до<span class="sort-icon"></span></th>
+        <th data-field="certdecltr_applicant">Импортер<span class="sort-icon"></span></th>
+        <th data-field="certdecltr_manufacturer">Производитель<span class="sort-icon"></span></th>
+        <th data-field="certdecltr_productname">Категория<span class="sort-icon"></span></th>
+        <th data-field="cert_full_batchsizetext_numeric">Размер партии<span class="sort-icon"></span></th>
+      </tr>
+  `;
+  var now = new Date();
+  data.forEach((cert, idx) =>{let num = cert['cert_full_docid']|| '-';
+    let certId = cert['certdecltr_id']|| '';
+    let link = certId && certId !== '-'
+      ? `<a href="https://tsouz.belgiss.by/#!/nsps/certifs/${encodeURIComponent(certId)}/view" target="_blank" class="certhyper" onclick="event.stopPropagation();">${num}</a>`
+      : num;
+    let start = formatDate(cert['certdecltr_docstartdate']);
+    let startSort = cert['certdecltr_docstartdate']|| '';
+    let end = formatDate(cert['certdecltr_docvaliditydate']);
+    let importer = cert['certdecltr_applicant']|| '-';
+
+    let manufacturer = cert['certdecltr_manufacturer']|| '-';
+    let countryCode = cert['cert_manufacturer_country_code'];
+    let flag = (countryCode && countryCode.length === 2)
+      ? '<span class="sert-flag">'+getFlagEmoji(countryCode)+'</span>' : "";
+
+    let category = cert['certdecltr_productname']|| '-';
+    let batchRaw = cert['cert_full_batchsizetext']|| '-';
+    let batch = extractBatchNumber(batchRaw);
+
+    let state = getCertState(cert);
+    let stateClass = '';
+    let badgeNew = '';
+    if(state=="expired") stateClass="sert-expired";
+    if(state=="almost") stateClass="sert-almost";
+    if(state=="new"){stateClass="sert-new"; badgeNew='<span class="cert-new-badge">NEW</span>';}let skuHtml = '';
+    const fullProduct = cert['cert_full_productname']|| '';
+    const skus = fullProduct.split(/;\s*/).filter(s => s.replace(/\s/g, '').length > 3);
+    if(skus.length > 0){skuHtml += `<div style="font-weight:bold;">Детализация SKU:</div>`;
+      skus.forEach((line, i) =>{let prodMatch = (line.split('|')[0]||'').replace(/^\s*/,'').replace(/\s*$/,'');
+        let nicMatch = '';
+        const nicRE = /\(([\d.,±]+)\)\s*мг\/мл/;
+        const nicRE2 = /никотина.*?([\d±,.]+)\s*мг\/мл/i;
+        let nic = '';
+        if (nicRE.exec(line)){nic = nicRE.exec(line)[1];}else if (nicRE2.exec(line)){nic = nicRE2.exec(line)[1];}if (nic) nicMatch = nic + ' мг/мл';
+        let packMatch = '';
+        const packRE = /((?:полимерный|стеклянный).+?упаковках?)/i;
+        if (packRE.exec(line)){packMatch = packRE.exec(line)[1];}let shkMatch = '';
+        const shkRE = /штрих(?:овой)?\s*код\s*(\d{8,14})/i;
+        if (shkRE.exec(line)){shkMatch = shkRE.exec(line)[1];}let qtyMatch = '';
+        const qtyRE = /(\d{1,7})\s*шт/;
+        if (qtyRE.exec(line)){qtyMatch = qtyRE.exec(line)[1];}else{const elements = line.split('|').map(s=>s.trim());
+          if (elements.length>2){let v = elements[2].replace(/\D/g,'');
+            if (v) qtyMatch = v;}}const elements = line.split('|').map(s=>s.trim());
+        let tnved = elements[3]|| '-';
+        let okp  = elements[4]|| '-';
+        let categoryExpanded = elements[5]|| '-';
+        skuHtml += `
+        <div class="sku-block">
+        <table class="sku-table">
+          <tr class="sku-hdr"><td>Продукт:</td><td>${prodMatch||'-'}</td></tr>
+          <tr><td>Никотин:</td><td>${nicMatch||'-'}</td></tr>
+          <tr><td>Упаковка:</td><td>${packMatch||'-'}</td></tr>
+          <tr><td>ШК:</td><td>${shkMatch||'-'}</td></tr>
+          <tr><td>Кол-во этого SKU:</td><td>${qtyMatch||'-'}</td></tr>
+          <tr><td>Код ТН ВЭД:</td><td>${tnved}</td></tr>
+          <tr><td>Код ОКП:</td><td>${okp}</td></tr>
+          <tr><td>Категория (расш.):</td><td>${categoryExpanded}</td></tr>
+        </table>
+        </div>
+        `;});}else{skuHtml += '<i>Нет данных по SKU</i>';}let detailsHtml = `
+    <div class="accordion-content">
+      <b>ID сертификата:</b> ${cert['certdecltr_id']?? '-'}<br>
+      <b>Страна импортера:</b> ${cert['cert_full_countrycode']?? '-'}<br>
+      <b>Компания импортера:</b> ${cert['cert_full_businessentityname']?? '-'}<br>
+      <b>Код страны производителя:</b> ${cert['cert_manufacturer_country_code']?? '-'}<br>
+      <hr>
+      ${skuHtml}</div>`;
+    html += `
+      <tr class="expandable ${stateClass}" data-idx="${idx}" data-cert="${num}" data-batch="${batch||''}" data-date="${startSort}">
+        <td class="arrow"></td>
+        <td>${link}${badgeNew}</td>
+        <td class="sert-date-cell">${start}</td>
+        <td>${end}</td>
+        <td>${importer}</td>
+        <td>${flag}${manufacturer}</td>
+        <td>${category}</td>
+        <td>${batch}</td>
+      </tr>
+      <tr class="detail-row" id="detail-${idx}">
+        <td colspan="8">${detailsHtml}</td>
+      </tr>
+    `;});
+  html += `</table>`;
+  document.getElementById("table-section").innerHTML = html;
+  addAccordionListeners();
+  addSortListeners();
+  updateCounts();
+  markActiveFilters();
+  updateStateBtns();}function formatDate(s){if (!s) return '-'; return s.replace(/T.+$/, '');}function extractBatchNumber(text){if (!text) return '-';
+  let m = text.match(/(\d{1,10})\s*(штук|шт\.|шт)?/i);
+  if (m) return m[1];
+  return text.replace(/\D/g, '') || '-';}function addSortListeners(){document.querySelectorAll("#table-section th[data-field]").forEach(th =>{th.onclick = function(){let prevSorted = document.querySelector("#table-section th.sert-sorted");
+      prevSorted && prevSorted.classList.remove('sert-sorted');
+      th.classList.add('sert-sorted');
+      let field = th.getAttribute('data-field');
+      if (sortField === field) sortDir = -sortDir;
+      else{sortField = field; sortDir = 1;}if(field === 'cert_full_batchsizetext_numeric' || field === 'cert_full_batchsizetext'){filteredData.sort((a, b) =>{let va = Number(extractBatchNumber(a['cert_full_batchsizetext']|| ''));
+          let vb = Number(extractBatchNumber(b['cert_full_batchsizetext']|| ''));
+          if(isNaN(va)) va = -Infinity;
+          if(isNaN(vb)) vb = -Infinity;
+          return (va - vb) * sortDir;});}else if(field==='certdecltr_docstartdate' || field==='certdecltr_docvaliditydate'){filteredData.sort(function(a,b){let va = a[field]||'', vb = b[field]||'';
+          if (!va && !vb) return 0;
+          if (!va) return -1 * sortDir;
+          if (!vb) return 1 * sortDir;
+          return (va.localeCompare(vb, undefined,{numeric:true})) * sortDir;});}else{filteredData.sort(function(a,b){return ((a[field]||'').localeCompare(b[field]||'', undefined,{numeric:true})) * sortDir;});}document.querySelectorAll("#table-section th .sort-icon").forEach(ic=>ic.innerText='');
+      th.querySelector('.sort-icon').innerText = sortDir === 1 ? '▲' : '▼';
+      renderTable(filteredData);};});}function addAccordionListeners(){document.querySelectorAll("tr.expandable").forEach(row =>{row.addEventListener('click', function(e){if (e.target.closest('a')) return;
+      let idx = this.getAttribute('data-idx');
+      let detailRow = document.getElementById('detail-' + idx);
+      let arrow = this.querySelector('.arrow');
+      if (detailRow.style.display === 'table-row'){detailRow.style.display = 'none';
+        arrow.classList.remove('open');}else{document.querySelectorAll("tr.detail-row").forEach(r => r.style.display = 'none');
+        document.querySelectorAll(".arrow").forEach(a => a.classList.remove('open'));
+        detailRow.style.display = 'table-row';
+        arrow.classList.add('open');}});});}function updateCounts(){var cnt = filteredData.length;
+  var units = 0;
+  var uniqPartners ={};
+  for(var i=0;i<filteredData.length;i++){var row = filteredData[i];
+    var batch = extractBatchNumber(row['cert_full_batchsizetext']|| '');
+    units += Number(batch) || 0;
+    var prt = (row['certdecltr_manufacturer']||'').trim();
+    if(prt) uniqPartners[prt]=1;}var partners = Object.keys(uniqPartners).length;
+  document.getElementById("sertStatusRow").innerHTML =
+    `Сертификатов: <b>${cnt}</b>&nbsp; Единиц продукции: <b>${units}</b>&nbsp; Партнеров: <b>${partners}</b>`;}function markActiveFilters(){var mf = document.getElementById('mfSelect');
+  var dfrom = document.getElementById('dateFrom');
+  var dto = document.getElementById('dateTo');
+  mf && mf.classList.remove('sert-active-filter');
+  dfrom && dfrom.classList.remove('sert-active-filter');
+  dto && dto.classList.remove('sert-active-filter');
+  if(mf && mf.value) mf.classList.add('sert-active-filter');
+  if(dfrom && dfrom.value) dfrom.classList.add('sert-active-filter');
+  if(dto && dto.value) dto.classList.add('sert-active-filter');
+  var sortedThs = document.querySelectorAll("#table-section th[data-field]");
+  sortedThs.forEach(function(th){th.classList.remove("sert-sorted");});
+  if(sortField && document.querySelector('#table-section th[data-field="'+sortField+'"]')){document.querySelector('#table-section th[data-field="'+sortField+'"]').classList.add('sert-sorted');}updateStateBtns();}function setupDatePeriod(){document.getElementById('dateFrom').onchange = function(){markActiveFilters(); filterAndRedraw();};
+  document.getElementById('dateTo').onchange = function(){markActiveFilters(); filterAndRedraw();};
+  document.getElementById('resetFilter').onclick = function(){currentManufacturer = ''; stateFilter='all'; myProductActive = false;
+    if(document.getElementById('mfSelect')) document.getElementById('mfSelect').value = '';
+    document.getElementById('dateFrom').value = '';
+    document.getElementById('dateTo').value = '';
+    Array.from(document.querySelectorAll('.sert-state-btn')).forEach(function(btn){btn.classList.remove('sert-state-active');});
+    var all = document.getElementById('sertStateBtn_all'); all && all.classList.add('sert-state-active');
+    var mpb = document.getElementById('sertMyProductBtn'); mpb && mpb.classList.remove('active');
+    filteredData = originalData.slice();
+    renderTable(filteredData);
+    markActiveFilters();
+    updateCounts();
+    updateStateBtns();};
+  document.getElementById('downloadCsv').onclick = function(){downloadExcel(filteredData);};}function filterAndRedraw(){let mf = document.getElementById('mfSelect');
+  let dfrom = document.getElementById('dateFrom');
+  let dto = document.getElementById('dateTo');
+  filteredData = originalData.filter(function(row){if (mf && mf.value && row['certdecltr_manufacturer']!== mf.value) return false;
+    if (dfrom && dfrom.value){var d = row['certdecltr_docstartdate']? row['certdecltr_docstartdate'].slice(0,10) : '';
+      if (d < dfrom.value) return false;}if(dto && dto.value){var d = row['certdecltr_docstartdate']? row['certdecltr_docstartdate'].slice(0,10) : '';
+      if (d > dto.value) return false;}if(myProductActive){var m = (row['certdecltr_manufacturer']||'').toLowerCase();
+      if ( !(m.indexOf("белвэйп") !== -1 || m.indexOf("belvape") !== -1) ) return false;}var state = getCertState(row);
+    if(stateFilter=="expired" && state!="expired") return false;
+    if(stateFilter=="almost" && state!="almost") return false;
+    if(stateFilter=="new" && state!="new") return false;
+    return true;});
+  renderTable(filteredData);
+  updateCounts();
+  markActiveFilters();
+  updateStateBtns();}// ВЫГРУЗКА EXCEL: в нужном формате
+function downloadExcel(data){var now = new Date();
+  var dateReport = now.toISOString().slice(0,16).replace('T', ' ');
+  var rows =[];
+  rows.push(["Дата формирования отчета:", dateReport]);
+  rows.push([]);
+  rows.push(["Номер сертификата","Заявитель","Производитель","Список SKU в сертификате","Кол-во в партии","Дата регистрации","Дата действия","Ссылка на сертификат"]);
+  data.forEach(row =>{var skuTitlesWithQty =[];
+    var skus = (row['cert_full_productname']||'').split(/;\s*/).filter(s=>s.replace(/\s/g,'').length>3);
+    for(var i=0; i<skus.length; i++){var parts = skus[i].split('|').map(x=>x.trim());
+      var name = parts[0]||'-';
+      var qty = '';
+      var qtyRE = /(\d{1,7})\s*шт/;
+      if (qtyRE.exec(skus[i])){qty = qtyRE.exec(skus[i])[1];}else if(parts.length>2){qty = (parts[2]||'').replace(/\D/g,'');}if(qty && Number(qty)>0)
+        skuTitlesWithQty.push(name + ' | ' + qty);
+      else
+        skuTitlesWithQty.push(name);}var cid = row['certdecltr_id']||'';
+    var link = (cid && cid!='-') ? ("https://tsouz.belgiss.by/#!/nsps/certifs/"+encodeURIComponent(cid)+"/view") : "";
+    var batch = '-';
+    var batchRaw = row['cert_full_batchsizetext']|| '';
+    var m = batchRaw.match(/(\d{1,10})\s*(штук|шт\.|шт)?/i);
+    if (m) batch = m[1];
+    else batch = batchRaw.replace(/\D/g,'')||'-';
+
+    rows.push([row['cert_full_docid']|| '',
+      row['certdecltr_applicant']|| '',
+      row['certdecltr_manufacturer']|| '',
+      skuTitlesWithQty.join('\n'),
+      batch,
+      (row['certdecltr_docstartdate']||'').replace(/T.+$/,''),
+      (row['certdecltr_docvaliditydate']||'').replace(/T.+$/,''),
+      link]);});
+  var ws = XLSX.utils.aoa_to_sheet(rows);
+  var wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Сертификаты");
+  XLSX.writeFile(wb, 'report_certif_belvape_'+(now.toISOString().slice(0,10))+'.xlsx');}}</script>
+  </body>
+</html>
+  <meta charset="UTF-8">
+  <title>Сертификаты БелВэйп</title>
